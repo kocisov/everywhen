@@ -1,8 +1,14 @@
 default:
   @just --list
 
-build-wasm mode="debug":
-  cargo build --{{mode}} --target wasm32-wasi
+build *FLAGS:
+  cargo build {{FLAGS}} --target wasm32-wasi
 
-run-wasmtime mode="debug":
+run mode="debug":
   wasmtime target/wasm32-wasi/{{mode}}/everywhen.wasm
+
+run-example:
+  cat example.js | just run release
+
+build-run:
+  just build --release && just run-example
